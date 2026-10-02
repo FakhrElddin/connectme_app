@@ -85,6 +85,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       isPassword: true,
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 40),
                     CustomGradientButton(text: 'SIGN IN', onTap: () {}),
