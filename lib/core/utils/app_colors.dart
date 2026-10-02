@@ -12,6 +12,7 @@ abstract final class AppColors {
   // Background & Greys
   static const Color backgroundColor = Color(0xFFFFFFFF);
   static const Color whiteColor = Colors.white;
+  static const Color redColor = Colors.red;
   static const Color lightGreyColor = Color(0xFFF3F5F7);
   static const Color greyColor = Color(0xFFBDBDBD);
   static const Color darkGreyColor = Color(0xFF606060);

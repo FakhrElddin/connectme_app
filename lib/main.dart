@@ -1,3 +1,4 @@
+import 'package:connectme_app/core/utils/app_colors.dart';
 import 'package:connectme_app/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      theme: lightTheme,
+      home: const LoginScreen(),
     );
   }
 }
+
+ThemeData lightTheme = ThemeData(
+  scaffoldBackgroundColor: AppColors.backgroundColor,
+);

@@ -12,6 +12,7 @@ class CustomTextFormField extends StatefulWidget {
     this.textInputAction = TextInputAction.next,
     this.onChanged,
     this.onSubmitted,
+    this.validator,
   });
 
   final String hintText;
@@ -21,6 +22,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputAction textInputAction;
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
+  final String? Function(String?)? validator;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -37,61 +39,66 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColors.lightGreyColor,
-        borderRadius: BorderRadius.circular(30),
+    return TextFormField(
+      controller: widget.controller,
+      obscureText: obscureText,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      onChanged: widget.onChanged,
+      onFieldSubmitted: widget.onSubmitted,
+      cursorColor: AppColors.primaryColor,
+      style: const TextStyle(
+        fontFamily: 'CircularStd',
+        fontSize: 16,
+        color: AppColors.darkTextColor,
       ),
-      child: TextFormField(
-        controller: widget.controller,
-        obscureText: obscureText,
-        keyboardType: widget.keyboardType,
-        textInputAction: widget.textInputAction,
-        onChanged: widget.onChanged,
-        onFieldSubmitted: widget.onSubmitted,
-        cursorColor: AppColors.primaryColor,
-        style: const TextStyle(
+      validator: widget.validator,
+      decoration: InputDecoration(
+        hintText: widget.hintText,
+        hintStyle: const TextStyle(
           fontFamily: 'CircularStd',
           fontSize: 16,
-          color: AppColors.darkTextColor,
+          color: AppColors.greyColor,
         ),
-        decoration: InputDecoration(
-          isDense: true,
-          hintText: widget.hintText,
-          hintStyle: const TextStyle(
-            fontFamily: 'CircularStd',
-            fontSize: 16,
-            color: AppColors.greyColor,
-            letterSpacing: -0.2,
-          ),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 13,
-          ),
-          suffixIcon: widget.isPassword
-              ? GestureDetector(
-                  onTap: toggleObscureText,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: SvgPicture.asset(
-                      'assets/icons/ic_show.svg',
-                      width: 24,
-                      height: 24,
-                      fit: BoxFit.scaleDown,
-                      colorFilter: ColorFilter.mode(
-                        obscureText
-                            ? AppColors.greyColor
-                            : AppColors.primaryColor,
-                        BlendMode.srcIn,
-                      ),
+        border: InputBorder.none,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(color: AppColors.transparentColor),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(color: AppColors.primaryColor),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(color: AppColors.redColor),
+        ),
+        filled: true,
+        fillColor: AppColors.lightGreyColor,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 13,
+        ),
+        suffixIcon: widget.isPassword
+            ? GestureDetector(
+                onTap: toggleObscureText,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: SvgPicture.asset(
+                    'assets/icons/ic_show.svg',
+                    width: 24,
+                    height: 24,
+                    fit: BoxFit.scaleDown,
+                    colorFilter: ColorFilter.mode(
+                      obscureText
+                          ? AppColors.greyColor
+                          : AppColors.primaryColor,
+                      BlendMode.srcIn,
                     ),
                   ),
-                )
-              : null,
-        ),
+                ),
+              )
+            : null,
       ),
     );
   }

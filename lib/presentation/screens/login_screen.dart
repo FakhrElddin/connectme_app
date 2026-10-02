@@ -1,4 +1,5 @@
 import 'package:connectme_app/core/utils/app_colors.dart';
+import 'package:connectme_app/presentation/screens/sign_up_screen.dart';
 import 'package:connectme_app/presentation/widgets/auth_screen_header.dart';
 import 'package:connectme_app/presentation/widgets/custom_text_form_field.dart';
 import 'package:connectme_app/presentation/widgets/custom_gradient_button.dart';
@@ -29,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenHeight = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Stack(
@@ -58,6 +58,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 20),
                     CustomTextFormField(
@@ -66,6 +69,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       isPassword: true,
                       textInputAction: TextInputAction.done,
                       onSubmitted: (value) {},
+                      validator: (value) {
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 40),
                     GestureDetector(
@@ -85,7 +91,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 40),
                     SocialAuthButtons(onGoogleTap: () {}, onFacebookTap: () {}),
                     const SizedBox(height: 40),
-                    SignUpSection(onSignUpTap: () {}),
+                    SignUpSection(
+                      onSignUpTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
