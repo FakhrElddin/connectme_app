@@ -26,4 +26,16 @@ class AuthCubit extends Cubit<AuthState> {
       (userCredential) => emit(SignUpSuccess()),
     );
   }
+
+  void loginUser({required String email, required String password}) async {
+    emit(LoginLoading());
+    var either = await authService.loginUser(
+      emailAddress: email,
+      password: password,
+    );
+    either.fold(
+      (failure) => emit(LoginFailure(failure: failure)),
+      (userCredential) => emit(LoginSuccess()),
+    );
+  }
 }
