@@ -3,7 +3,18 @@ import 'package:connectme_app/core/errors/failures.dart';
 import 'package:connectme_app/data/models/user_model.dart';
 import 'package:dartz/dartz.dart';
 
+/// Design Pattern: Singleton Pattern
+/// Why applied:
+/// Ensures only a single, shared instance of [FirestoreService] exists throughout
+/// the entire app lifecycle, preventing multiple redundant database connections.
 class FirestoreService {
+  // 1. Private constructor to prevent direct external instantiation
+  FirestoreService._();
+  // 2. Static final instance representing the single cached object
+  static final FirestoreService _instance = FirestoreService._();
+  // 3. Factory constructor that always delivers the same cached instance
+  factory FirestoreService() => _instance;
+
   final db = FirebaseFirestore.instance;
 
   Future<Either<Failures, Unit>> saveUserData({required UserModel user}) async {
