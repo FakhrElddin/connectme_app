@@ -1,3 +1,4 @@
+import 'package:connectme_app/presentation/blocs/auth_cubit.dart';
 import 'package:connectme_app/services/auth_service.dart';
 import 'package:connectme_app/services/firestore_service.dart';
 import 'package:get_it/get_it.dart';
@@ -5,6 +6,7 @@ import 'package:get_it/get_it.dart';
 final getIt = GetIt.instance;
 
 void diInit() {
-  getIt.registerLazySingleton<FirestoreService>(() => FirestoreService(),);
-  getIt.registerLazySingleton<AuthService>(() => AuthService(),);
+  getIt.registerLazySingleton<FirestoreService>(() => FirestoreService());
+  getIt.registerLazySingleton<AuthService>(() => AuthService());
+  getIt.registerLazySingleton<AuthCubit>(() => AuthCubit(authService: getIt<AuthService>()));
 }
