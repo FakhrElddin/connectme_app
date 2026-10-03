@@ -24,4 +24,23 @@ class AuthService {
       );
     }
   }
+
+  Future<Either<Failures, UserCredential>> loginUser({
+    required String emailAddress,
+    required String password,
+  }) async {
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: emailAddress, password: password);
+      return Right(userCredential);
+    } on FirebaseAuthException catch (e) {
+      return Left(AuthFailure.fromFirebaseAuthException(e));
+    } catch (e) {
+      return Left(
+        UnexpectedFailure(
+          errorMessage: 'An unexpected error occurred, Please try again later.',
+        ),
+      );
+    }
+  }
 }

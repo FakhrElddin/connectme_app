@@ -45,6 +45,12 @@ class AuthFailure extends Failures {
         return AuthFailure(
           errorMessage: 'Network error. Please check your internet connection.',
         );
+      // login case
+      case 'invalid-credential':
+        return AuthFailure(
+          errorMessage:
+              'Invalid email or password. Please check your credentials.',
+        );
       default:
         return AuthFailure(
           errorMessage:
