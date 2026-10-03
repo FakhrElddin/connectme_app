@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742483529934",
+    "project_id": "connectme-app-sprints",
+    "storage_bucket": "connectme-app-sprints.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742483529934:android:5398b29a29e59bf9be009f",
+        "android_client_info": {
+          "package_name": "com.example.connectme_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEhopnwACwWH0dBCzU5LsmftycM_Rctt4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
