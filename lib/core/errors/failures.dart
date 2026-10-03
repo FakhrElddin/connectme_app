@@ -63,4 +63,26 @@ class AuthFailure extends Failures {
 
 class FirestoreFailure extends Failures {
   FirestoreFailure({required super.errorMessage});
+
+  factory FirestoreFailure.fromFirebaseException(
+    FirebaseException firebaseException,
+  ) {
+    switch (firebaseException.code) {
+      case "permission-denied":
+        return FirestoreFailure(
+          errorMessage:
+              'Permission denied. You do not have access to this data.',
+        );
+      case "unavailable":
+        return FirestoreFailure(
+          errorMessage: 'Firestore service is currently unavailable. Check your internet.',
+        );
+      default:
+        return FirestoreFailure(
+          errorMessage:
+              firebaseException.message ??
+              'A database error occurred. Please try again.',
+        );
+    }
+  }
 }
