@@ -46,7 +46,7 @@ class CreatePostBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Create Image Post',
+              'Create Post',
               style: TextStyle(
                 fontFamily: 'CircularStd',
                 fontSize: 18,
@@ -54,9 +54,30 @@ class CreatePostBottomSheet extends StatelessWidget {
                 color: AppColors.darkTextColor,
               ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 12),
             Container(
-              height: 180,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+              decoration: BoxDecoration(
+                color: AppColors.homeBackgroundColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const TextField(
+                maxLines: 2,
+                decoration: InputDecoration(
+                  isDense: true,
+                  border: InputBorder.none,
+                  hintText: 'Write a caption... (optional)',
+                  hintStyle: TextStyle(
+                    fontFamily: 'CircularStd',
+                    color: AppColors.greyColor,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              height: 150,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: AppColors.homeBackgroundColor,

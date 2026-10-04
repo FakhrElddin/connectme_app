@@ -7,6 +7,7 @@ class PostCard extends StatefulWidget {
     required this.authorName,
     required this.postTime,
     this.authorImage,
+    this.content,
     this.postImage,
     this.likesCount = 0,
     this.commentsCount = 0,
@@ -19,6 +20,7 @@ class PostCard extends StatefulWidget {
   final String authorName;
   final String postTime;
   final String? authorImage;
+  final String? content;
   final String? postImage;
   final int likesCount;
   final int commentsCount;
@@ -110,6 +112,19 @@ class _PostCardState extends State<PostCard> {
               ],
             ),
           ),
+          if (widget.content != null && widget.content!.trim().isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+              child: Text(
+                widget.content!,
+                style: const TextStyle(
+                  fontFamily: 'CircularStd',
+                  fontSize: 14,
+                  color: AppColors.darkTextColor,
+                  height: 1.3,
+                ),
+              ),
+            ),
           if (widget.postImage != null && widget.postImage!.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 8),
