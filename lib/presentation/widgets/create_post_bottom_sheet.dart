@@ -1,7 +1,7 @@
 import 'package:connectme_app/presentation/widgets/picker_button.dart';
 import 'package:flutter/material.dart';
 import 'package:connectme_app/core/utils/app_colors.dart';
-import 'package:connectme_app/presentation/widgets/custom_gradient_button.dart';
+import 'package:connectme_app/core/widgets/custom_gradient_button.dart';
 
 class CreatePostBottomSheet extends StatelessWidget {
   const CreatePostBottomSheet({super.key});

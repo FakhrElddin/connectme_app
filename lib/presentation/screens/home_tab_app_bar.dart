@@ -1,6 +1,7 @@
 import 'package:connectme_app/core/utils/app_colors.dart';
+import 'package:connectme_app/presentation/screens/profile_screen.dart';
 import 'package:connectme_app/presentation/widgets/category_tabs.dart';
-import 'package:connectme_app/presentation/widgets/custom_text_form_field.dart';
+import 'package:connectme_app/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -26,7 +27,12 @@ class HomeTabAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfileScreen()),
+            );
+          },
           icon: Container(
             width: 44,
             height: 44,
@@ -55,7 +61,6 @@ class HomeTabAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(
-    kToolbarHeight + CategoryTabs.preferredHeight,
-  );
+  Size get preferredSize =>
+      const Size.fromHeight(kToolbarHeight + CategoryTabs.preferredHeight);
 }
