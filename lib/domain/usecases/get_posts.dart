@@ -8,7 +8,7 @@ class GetPosts {
 
   GetPosts({required this.postRepository});
 
-  Future<Either<Failures, List<Post>>> call() {
+  Stream<Either<Failures, List<Post>>> call() {
     return postRepository.getPosts();
   }
 }

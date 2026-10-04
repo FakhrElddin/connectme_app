@@ -8,5 +8,5 @@ abstract class PostRepository {
     required String localImagePath,
   });
 
-  Future<Either<Failures, List<Post>>> getPosts();
+  Stream<Either<Failures, List<Post>>> getPosts();
 }

@@ -21,8 +21,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<Either<Failures, List<Post>>> getPosts() async {
-    var either = await firestorePostDatasource.getPosts();
-    return either.fold((failure) => Left(failure), (posts) => Right(posts));
+  Stream<Either<Failures, List<Post>>> getPosts() {
+    return firestorePostDatasource.getPosts();
   }
 }
