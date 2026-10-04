@@ -13,6 +13,7 @@ class CustomTextFormField extends StatefulWidget {
     this.onChanged,
     this.onSubmitted,
     this.validator,
+    this.prefixIcon,
   });
 
   final String hintText;
@@ -23,6 +24,7 @@ class CustomTextFormField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final ValueChanged<String>? onSubmitted;
   final String? Function(String?)? validator;
+  final Widget? prefixIcon;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -104,6 +106,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 ),
               )
             : null,
+        prefixIcon: widget.prefixIcon,
       ),
     );
   }
