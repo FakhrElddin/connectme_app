@@ -1,8 +1,9 @@
-import 'package:connectme_app/presentation/screens/home_tab_app_bar.dart';
+import 'package:connectme_app/presentation/widgets/home_tab_app_bar.dart';
 import 'package:connectme_app/presentation/screens/feeds_screen.dart';
 import 'package:connectme_app/presentation/screens/map_screen.dart';
 import 'package:connectme_app/presentation/widgets/create_post_bottom_sheet.dart';
 import 'package:connectme_app/presentation/widgets/custom_bottom_nav_bar.dart';
+import 'package:connectme_app/presentation/widgets/maps_tab_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:connectme_app/core/utils/app_colors.dart';
 
@@ -10,6 +11,10 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   final List<Widget> tabs = const [FeedsScreen(), MapScreen()];
+  final List<PreferredSizeWidget?> appBars = const [
+    HomeTabAppBar(),
+    MapsTabAppBar(),
+  ];
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -24,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       resizeToAvoidBottomInset: false,
       extendBody: true,
       backgroundColor: AppColors.homeBackgroundColor,
-      appBar: const HomeTabAppBar(),
+      appBar: widget.appBars[currentNavIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
         width: 70,
