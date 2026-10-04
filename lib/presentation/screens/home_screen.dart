@@ -1,7 +1,7 @@
+import 'package:connectme_app/presentation/widgets/custom_floating_action_button.dart';
 import 'package:connectme_app/presentation/widgets/home_tab_app_bar.dart';
 import 'package:connectme_app/presentation/screens/feeds_screen.dart';
 import 'package:connectme_app/presentation/screens/map_screen.dart';
-import 'package:connectme_app/presentation/widgets/create_post_bottom_sheet.dart';
 import 'package:connectme_app/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:connectme_app/presentation/widgets/maps_tab_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -31,39 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors.homeBackgroundColor,
       appBar: widget.appBars[currentNavIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        width: 70,
-        height: 70,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: LinearGradient(
-            colors: [AppColors.lightPurpleColor, AppColors.darkPurpleColor],
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-          ),
-        ),
-        child: FloatingActionButton(
-          onPressed: () {
-            CreatePostBottomSheet.show(context);
-          },
-          elevation: 0,
-          backgroundColor: AppColors.transparentColor,
-          shape: const CircleBorder(),
-          child: Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: AppColors.whiteColor,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Icon(
-              Icons.add_rounded,
-              color: AppColors.primaryColor,
-              size: 20,
-            ),
-          ),
-        ),
-      ),
+      floatingActionButton: const CustomFloatingActionButton(),
       body: widget.tabs[currentNavIndex],
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: currentNavIndex,
