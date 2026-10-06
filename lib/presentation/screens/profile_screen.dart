@@ -38,9 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final headerHeight = screenHeight * 0.185;
     final avatarRadius = screenWidth * 0.133;
 
-    return BlocProvider(
-      create: (context) => ProfileCubit()..getCurrentUserData(),
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: AppColors.transparentColor,
           statusBarIconBrightness: Brightness.light,
@@ -289,9 +287,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
           ),
         ),
-      ),
-    );
-  }
+      );
+    }
 
   void _showImagePickerBottomSheet(BuildContext context) {
     showModalBottomSheet(

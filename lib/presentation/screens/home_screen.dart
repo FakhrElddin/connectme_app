@@ -1,5 +1,6 @@
 import 'package:connectme_app/injection.dart';
 import 'package:connectme_app/presentation/blocs/post_cubit.dart';
+import 'package:connectme_app/presentation/blocs/profile_cubit.dart';
 import 'package:connectme_app/presentation/widgets/custom_floating_action_button.dart';
 import 'package:connectme_app/presentation/widgets/home_tab_app_bar.dart';
 import 'package:connectme_app/presentation/screens/feeds_screen.dart';
@@ -29,7 +30,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => getIt<PostCubit>()..getPosts() )],
+      providers: [
+        BlocProvider(create: (context) => getIt<PostCubit>()..getPosts()),
+        BlocProvider(create: (context) => getIt<ProfileCubit>()),
+      ],
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         extendBody: true,

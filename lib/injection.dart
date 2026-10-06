@@ -5,6 +5,7 @@ import 'package:connectme_app/domain/usecases/create_post.dart';
 import 'package:connectme_app/domain/usecases/get_posts.dart';
 import 'package:connectme_app/presentation/blocs/auth_cubit.dart';
 import 'package:connectme_app/presentation/blocs/post_cubit.dart';
+import 'package:connectme_app/presentation/blocs/profile_cubit.dart';
 import 'package:connectme_app/services/auth_service.dart';
 import 'package:connectme_app/services/firestore_service.dart';
 import 'package:get_it/get_it.dart';
@@ -16,6 +17,9 @@ void diInit() {
   getIt.registerLazySingleton<AuthService>(() => AuthService());
   getIt.registerFactory<AuthCubit>(
     () => AuthCubit(authService: getIt<AuthService>()),
+  );
+  getIt.registerFactory<ProfileCubit>(
+    () => ProfileCubit(),
   );
   getIt.registerFactory<PostCubit>(
     () => PostCubit(

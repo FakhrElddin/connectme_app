@@ -6,7 +6,7 @@ import 'package:connectme_app/core/errors/failures.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
+import 'package:local_auth/local_auth.dart';
 
 part 'profile_state.dart';
 
@@ -109,6 +109,59 @@ class ProfileCubit extends Cubit<ProfileState> {
       };
     } else {
       return {'deviceModel': 'Unknown', 'osVersion': 'Unknown'};
+    }
+  }
+
+  bool isAuthenticating = false;
+
+  Future<void> authenticateWithBiometrics() async {
+    if (isAuthenticating) return;
+    isAuthenticating = true;
+    final LocalAuthentication auth = LocalAuthentication();
+    try {
+      final bool didAuthenticate = await auth.authenticate(
+        localizedReason: 'Please authenticate to show your profile info',
+        biometricOnly: true,
+      );
+      if (didAuthenticate) {
+        emit(BiometricAuthSuccess());
+      }
+    } on LocalAuthException catch (e) {
+      if (e.code == LocalAuthExceptionCode.noBiometricHardware) {
+        emit(
+          BiometricAuthFailure(
+            title: 'Biometrics Not Available',
+            message:
+                'Your device does not support biometric authentication, or it is currently turned off in your system settings.',
+          ),
+        );
+      } else if (e.code == LocalAuthExceptionCode.temporaryLockout ||
+          e.code == LocalAuthExceptionCode.biometricLockout) {
+        emit(
+          BiometricAuthFailure(
+            title: 'Security Lockout',
+            message:
+                'Too many failed attempts. Biometric login is temporarily disabled. Please unlock your phone using your PIN or lock screen pattern to reset it.',
+          ),
+        );
+      } else {
+        emit(
+          BiometricAuthFailure(
+            title: 'Authentication Failed',
+            message:
+                'An error occurred during authentication. Please try again or use another method.',
+          ),
+        );
+      }
+    } catch (_) {
+      emit(
+        BiometricAuthFailure(
+          title: 'Authentication Failed',
+          message: 'An unexpected error occurred. Please try again.',
+        ),
+      );
+    } finally {
+      isAuthenticating = false;
     }
   }
 }

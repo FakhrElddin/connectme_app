@@ -29,3 +29,15 @@ final class ProfileError extends ProfileState {
   ProfileError({required this.failures});
 }
 
+final class BiometricAuthSuccess extends ProfileState {}
+
+final class BiometricAuthFailure extends ProfileState {
+  final String title;
+  final String message;
+
+  BiometricAuthFailure({
+    required this.title,
+    required this.message,
+  });
+}
+
