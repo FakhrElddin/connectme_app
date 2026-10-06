@@ -10,11 +10,9 @@ class CreatePost {
 
   Future<Either<Failures, Unit>> call({
     required Post post,
-    required String localImagePath,
   }) {
     return postRepository.createPost(
       post: post,
-      localImagePath: localImagePath,
     );
   }
 }

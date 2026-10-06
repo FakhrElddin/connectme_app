@@ -1,3 +1,5 @@
+import 'package:connectme_app/injection.dart';
+import 'package:connectme_app/presentation/blocs/post_cubit.dart';
 import 'package:connectme_app/presentation/widgets/custom_floating_action_button.dart';
 import 'package:connectme_app/presentation/widgets/home_tab_app_bar.dart';
 import 'package:connectme_app/presentation/screens/feeds_screen.dart';
@@ -6,6 +8,7 @@ import 'package:connectme_app/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:connectme_app/presentation/widgets/maps_tab_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:connectme_app/core/utils/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,30 +28,33 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBody: true,
-      backgroundColor: AppColors.homeBackgroundColor,
-      appBar: widget.appBars[currentNavIndex],
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: const CustomFloatingActionButton(),
-      body: widget.tabs[currentNavIndex],
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: currentNavIndex,
-        onHomeTap: () {
-          if (currentNavIndex != 0) {
-            setState(() {
-              currentNavIndex = 0;
-            });
-          }
-        },
-        onMapsTap: () {
-          if (currentNavIndex != 1) {
-            setState(() {
-              currentNavIndex = 1;
-            });
-          }
-        },
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => getIt<PostCubit>())],
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBody: true,
+        backgroundColor: AppColors.homeBackgroundColor,
+        appBar: widget.appBars[currentNavIndex],
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: const CustomFloatingActionButton(),
+        body: widget.tabs[currentNavIndex],
+        bottomNavigationBar: CustomBottomNavBar(
+          currentIndex: currentNavIndex,
+          onHomeTap: () {
+            if (currentNavIndex != 0) {
+              setState(() {
+                currentNavIndex = 0;
+              });
+            }
+          },
+          onMapsTap: () {
+            if (currentNavIndex != 1) {
+              setState(() {
+                currentNavIndex = 1;
+              });
+            }
+          },
+        ),
       ),
     );
   }

@@ -11,11 +11,9 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<Either<Failures, Unit>> createPost({
     required Post post,
-    required String localImagePath,
   }) async {
     var either = await firestorePostDatasource.createPost(
       post: post,
-      localImagePath: localImagePath,
     );
     return either.fold((failure) => Left(failure), (_) => const Right(unit));
   }

@@ -3,12 +3,10 @@ import 'package:connectme_app/core/errors/failures.dart';
 import 'package:connectme_app/data/models/post_model.dart';
 import 'package:connectme_app/domain/entities/post.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class FirestorePostDatasource {
   Future<Either<Failures, Unit>> createPost({
     required Post post,
-    required String localImagePath,
   });
 
   Stream<Either<Failures, List<Post>>> getPosts();
@@ -18,7 +16,6 @@ class FirestorePostDatasourceImpl implements FirestorePostDatasource {
   @override
   Future<Either<Failures, Unit>> createPost({
     required Post post,
-    required String localImagePath,
   }) async {
     try {
       final db = FirebaseFirestore.instance;
@@ -67,6 +64,12 @@ class FirestorePostDatasourceImpl implements FirestorePostDatasource {
         .orderBy('timestamp', descending: true)
         .snapshots()
         .map<Either<Failures, List<Post>>>((snapshot) {
+          // List<PostModel> posts = [];
+          // doc.data() equal post
+          // for (var doc in snapshot.docs) {
+          //   PostModel singlePost = doc.data();
+          //   posts.add(singlePost);
+          // }
           final posts = snapshot.docs.map((doc) => doc.data()).toList();
           return Right(posts);
         })

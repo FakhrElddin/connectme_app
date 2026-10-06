@@ -5,7 +5,6 @@ import 'package:dartz/dartz.dart';
 abstract class PostRepository {
   Future<Either<Failures, Unit>> createPost({
     required Post post,
-    required String localImagePath,
   });
 
   Stream<Either<Failures, List<Post>>> getPosts();

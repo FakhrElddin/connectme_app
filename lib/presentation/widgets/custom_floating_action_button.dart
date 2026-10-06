@@ -3,7 +3,7 @@ import 'package:connectme_app/presentation/widgets/create_post_bottom_sheet.dart
 import 'package:flutter/material.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
-  const new({super.key});
+  const CustomFloatingActionButton({super.key});
 
   @override
   Widget build(BuildContext context) {
