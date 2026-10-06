@@ -6,11 +6,11 @@ class PostModel extends Post {
     required super.postId,
     required super.authorId,
     required super.authorName,
-    required super.postImageUrl,
+    required super.content,
     required super.timestamp,
+    super.postImageUrl,
     super.authorImage,
     super.commentsCount,
-    super.content,
     super.isLiked,
     super.likesCount,
   });
@@ -20,6 +20,7 @@ class PostModel extends Post {
       postId: json['postId'],
       authorId: json['authorId'],
       authorName: json['authorName'],
+      content: json['content'] ?? '',
       postImageUrl: json['postImageUrl'],
       timestamp: json['timestamp'] is Timestamp
           ? (json['timestamp'] as Timestamp).toDate()
@@ -28,7 +29,6 @@ class PostModel extends Post {
                 : DateTime.now()),
       authorImage: json['authorImage'],
       commentsCount: json['commentsCount'],
-      content: json['content'],
       isLiked: json['isLiked'],
       likesCount: json['likesCount'],
     );
@@ -39,11 +39,11 @@ class PostModel extends Post {
       'postId': postId,
       'authorId': authorId,
       'authorName': authorName,
+      'content': content,
       'postImageUrl': postImageUrl,
       'timestamp': Timestamp.fromDate(timestamp),
       'authorImage': authorImage,
       'commentsCount': commentsCount,
-      'content': content,
       'isLiked': isLiked,
       'likesCount': likesCount,
     };

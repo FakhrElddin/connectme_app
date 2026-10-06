@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:connectme_app/core/utils/app_colors.dart';
 
@@ -6,8 +8,8 @@ class PostCard extends StatefulWidget {
     super.key,
     required this.authorName,
     required this.postTime,
+    required this.content,
     this.authorImage,
-    this.content,
     this.postImage,
     this.likesCount = 0,
     this.commentsCount = 0,
@@ -19,8 +21,8 @@ class PostCard extends StatefulWidget {
 
   final String authorName;
   final String postTime;
+  final String content;
   final String? authorImage;
-  final String? content;
   final String? postImage;
   final int likesCount;
   final int commentsCount;
@@ -112,11 +114,11 @@ class _PostCardState extends State<PostCard> {
               ],
             ),
           ),
-          if (widget.content != null && widget.content!.trim().isNotEmpty)
+          if (widget.content.trim().isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
               child: Text(
-                widget.content!,
+                widget.content,
                 style: const TextStyle(
                   fontFamily: 'CircularStd',
                   fontSize: 14,
@@ -128,25 +130,25 @@ class _PostCardState extends State<PostCard> {
           if (widget.postImage != null && widget.postImage!.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 8),
-              child: Image.network(
-                widget.postImage!,
-                height: 224,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    height: 180,
-                    width: double.infinity,
-                    color: AppColors.lightGreyColor,
-                    child: const Center(
-                      child: Icon(
-                        Icons.image_not_supported_outlined,
-                        color: AppColors.greyColor,
-                        size: 40,
+              child: AspectRatio(
+                aspectRatio: 16 / 11,
+                child: widget.postImage!.startsWith('http')
+                    ? Image.network(
+                        widget.postImage!,
+                        height: 224,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            _imagePlaceholder(),
+                      )
+                    : Image.memory(
+                        base64Decode(widget.postImage!),
+                        //height: 224,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            _imagePlaceholder(),
                       ),
-                    ),
-                  );
-                },
               ),
             ),
           Padding(
@@ -218,6 +220,21 @@ class _PostCardState extends State<PostCard> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _imagePlaceholder() {
+    return Container(
+      height: 180,
+      width: double.infinity,
+      color: AppColors.lightGreyColor,
+      child: const Center(
+        child: Icon(
+          Icons.image_not_supported_outlined,
+          color: AppColors.greyColor,
+          size: 40,
+        ),
       ),
     );
   }

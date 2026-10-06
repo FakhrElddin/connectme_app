@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:connectme_app/presentation/blocs/post_cubit.dart';
@@ -165,6 +166,9 @@ class _CreatePostBottomSheetState extends State<CreatePostBottomSheet> {
                                     final picker = ImagePicker();
                                     final XFile? image = await picker.pickImage(
                                       source: ImageSource.camera,
+                                      imageQuality: 25,
+                                      maxWidth: 600,
+                                      maxHeight: 600,
                                     );
                                     if (image != null) {
                                       pickedImage = File(image.path);
@@ -182,6 +186,9 @@ class _CreatePostBottomSheetState extends State<CreatePostBottomSheet> {
                                     final picker = ImagePicker();
                                     final XFile? image = await picker.pickImage(
                                       source: ImageSource.gallery,
+                                      imageQuality: 25,
+                                      maxWidth: 600,
+                                      maxHeight: 600,
                                     );
                                     if (image != null) {
                                       pickedImage = File(image.path);
@@ -213,12 +220,23 @@ class _CreatePostBottomSheetState extends State<CreatePostBottomSheet> {
                                     )
                                   : CustomGradientButton(
                                       text: 'Publish',
-                                      onTap: () {
+                                      onTap: () async {
                                         if (formKey.currentState!.validate()) {
                                           final content = contentController.text
                                               .trim();
+                                          String? imageBase64;
+                                          if (pickedImage != null) {
+                                            final bytes = await pickedImage!
+                                                .readAsBytes();
+                                            imageBase64 = base64Encode(bytes);
+                                          }
+
+                                          if (!context.mounted) return;
                                           BlocProvider.of<PostCubit>(context)
-                                              .createPost(content: content);
+                                              .createPost(
+                                                content: content,
+                                                imageBase64: imageBase64,
+                                              );
                                         }
                                       },
                                     );

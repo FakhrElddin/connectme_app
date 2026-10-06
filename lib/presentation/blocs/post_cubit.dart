@@ -19,20 +19,23 @@ class PostCubit extends Cubit<PostState> {
   PostCubit({required this.getPostsUsecase, required this.createPostUsecase})
     : super(PostInitial());
 
-  void createPost({required String content}) async {
+  void createPost({
+    required String content,
+    String? imageBase64,
+  }) async {
     emit(CreatePostLoading());
     final currentUser = FirebaseAuth.instance.currentUser;
     final userDoc = await FirebaseFirestore.instance
         .collection('users')
         .doc(currentUser!.uid)
         .get();
-    String authorName = userDoc.data()!['name'];
+    String authorName = userDoc.data()?['name'] ?? 'Community Member';
     Post post = Post(
       postId: '',
       authorId: currentUser.uid,
       authorName: authorName,
       content: content,
-      postImageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&auto=format&fit=crop&q=80',
+      postImageUrl: imageBase64,
       timestamp: DateTime.now(),
     );
     var either = await createPostUsecase.call(post: post);
@@ -44,13 +47,8 @@ class PostCubit extends Cubit<PostState> {
 
   void getPosts() {
     emit(GetPostsLoading());
-    print('=========> after loading and before cancel');
     _postsSubscription?.cancel();
-    print('=========> after loading and after cancel');
-
     _postsSubscription = getPostsUsecase.call().listen((either) {
-      print('=========> after loading and inside listen');
-
       either.fold(
         (failure) => emit(GetPostsError(failure: failure)),
         (posts) => emit(GetPostsLoaded(posts: posts)),
