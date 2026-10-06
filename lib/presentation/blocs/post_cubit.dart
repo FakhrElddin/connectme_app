@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectme_app/core/errors/failures.dart';
@@ -12,6 +14,8 @@ part 'post_state.dart';
 class PostCubit extends Cubit<PostState> {
   final GetPosts getPostsUsecase;
   final CreatePost createPostUsecase;
+  StreamSubscription? _postsSubscription;
+
   PostCubit({required this.getPostsUsecase, required this.createPostUsecase})
     : super(PostInitial());
 
@@ -36,5 +40,27 @@ class PostCubit extends Cubit<PostState> {
       (failure) => emit(CreatePostError(failure: failure)),
       (_) => emit(CreatePostSuccess()),
     );
+  }
+
+  void getPosts() {
+    emit(GetPostsLoading());
+    print('=========> after loading and before cancel');
+    _postsSubscription?.cancel();
+    print('=========> after loading and after cancel');
+
+    _postsSubscription = getPostsUsecase.call().listen((either) {
+      print('=========> after loading and inside listen');
+
+      either.fold(
+        (failure) => emit(GetPostsError(failure: failure)),
+        (posts) => emit(GetPostsLoaded(posts: posts)),
+      );
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _postsSubscription?.cancel();
+    return super.close();
   }
 }

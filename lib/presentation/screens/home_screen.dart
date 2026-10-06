@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => getIt<PostCubit>())],
+      providers: [BlocProvider(create: (context) => getIt<PostCubit>()..getPosts() )],
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         extendBody: true,
