@@ -11,8 +11,16 @@ final class ProfileSuccess extends ProfileState {
   final String? profileImage;
   final String name;
   final String email;
+  final String deviceModel;
+  final String osVersion;
 
-  ProfileSuccess({required this.profileImage, required this.name, required this.email});
+  ProfileSuccess({
+    required this.profileImage,
+    required this.name,
+    required this.email,
+    required this.deviceModel,
+    required this.osVersion,
+  });
 }
 
 final class ProfileError extends ProfileState {
@@ -20,3 +28,4 @@ final class ProfileError extends ProfileState {
 
   ProfileError({required this.failures});
 }
+

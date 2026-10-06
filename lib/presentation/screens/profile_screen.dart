@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:connectme_app/core/widgets/custom_gradient_button.dart';
-import 'package:connectme_app/injection.dart';
 import 'package:connectme_app/presentation/blocs/profile_cubit.dart';
 import 'package:connectme_app/presentation/widgets/device_info_tile.dart';
 import 'package:connectme_app/presentation/widgets/picker_button.dart';
@@ -168,18 +167,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: AppColors.homeBackgroundColor,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: const Column(
+                        child: Column(
                           children: [
                             DeviceInfoTile(
                               icon: Icons.devices_rounded,
                               title: 'Device Model',
-                              value: 'Pixel 7 Pro',
+                              value: state.deviceModel,
                             ),
-                            Divider(height: 40, color: AppColors.greyColor),
+                            const Divider(
+                              height: 40,
+                              color: AppColors.greyColor,
+                            ),
                             DeviceInfoTile(
                               icon: Icons.android_rounded,
                               title: 'OS Version',
-                              value: 'Android 14',
+                              value: state.osVersion,
                             ),
                           ],
                         ),
@@ -199,8 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 .read<ProfileCubit>()
                                 .updateProfileImage(base64Image: base64String);
                             setState(() {
-                              _newPickedImage =
-                                  null; // إعادة ضبط الزر بعد النجاح
+                              _newPickedImage = null;
                             });
                           },
                         ),
