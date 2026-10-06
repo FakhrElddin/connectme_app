@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectme_app/core/widgets/custom_app_dialog.dart';
 import 'package:connectme_app/core/widgets/custom_gradient_button.dart';
 import 'package:connectme_app/presentation/blocs/profile_cubit.dart';
+import 'package:connectme_app/presentation/screens/login_screen.dart';
 import 'package:connectme_app/presentation/widgets/device_info_tile.dart';
 import 'package:connectme_app/presentation/widgets/picker_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:connectme_app/core/utils/app_colors.dart';
 import 'package:flutter/services.dart';
@@ -50,42 +53,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
             builder: (context, state) {
               if (state is ProfileSuccess) {
                 final avatarImage = _getAvatarImage(state.profileImage);
-                return Column(
-                  children: [
-                    SizedBox(
-                      height: headerHeight + avatarRadius,
-                      width: double.infinity,
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            height: headerHeight,
-                            child: Image.asset(
-                              'assets/images/profile_header_bg.png',
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned(
-                            top: MediaQuery.of(context).padding.top + 8,
-                            left: 16,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.black26,
-                              radius: 18,
-                              child: IconButton(
-                                padding: EdgeInsets.zero,
-                                icon: const Icon(
-                                  Icons.arrow_back_ios_rounded,
-                                  color: Colors.white,
-                                  size: 16,
-                                ),
-                                onPressed: () => Navigator.pop(context),
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: headerHeight + avatarRadius,
+                        width: double.infinity,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              height: headerHeight,
+                              child: Image.asset(
+                                'assets/images/profile_header_bg.png',
+                                width: double.infinity,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
+                            Positioned(
+                              top: MediaQuery.of(context).padding.top + 8,
+                              left: 16,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.black26,
+                                radius: 18,
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                    Icons.arrow_back_ios_rounded,
+                                    color: Colors.white,
+                                    size: 16,
+                                  ),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: MediaQuery.of(context).padding.top + 8,
+                              right: 16,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.black26,
+                                radius: 18,
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                    Icons.logout_rounded,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
+                                  onPressed: () => _handleLogout(context),
+                                ),
+                              ),
+                            ),
                           Stack(
                             alignment: Alignment.bottomRight,
                             children: [
@@ -206,8 +227,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                     const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: OutlinedButton.icon(
+                          onPressed: () => _handleLogout(context),
+                          icon: const Icon(
+                            Icons.logout_rounded,
+                            color: AppColors.redColor,
+                            size: 20,
+                          ),
+                          label: const Text(
+                            'Log Out',
+                            style: TextStyle(
+                              fontFamily: 'CircularStd',
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.redColor,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(
+                              color: AppColors.redColor,
+                              width: 1.5,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 32),
                   ],
-                );
+                ),
+              );
               } else if (state is ProfileError) {
                 return Center(
                   child: Padding(
@@ -395,6 +451,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         );
       },
+    );
+  }
+
+  void _handleLogout(BuildContext context) {
+    CustomAppDialog.show(
+      context: context,
+      title: 'Log Out',
+      description: 'Are you sure you want to log out from ConnectMe?',
+      dialogType: AppDialogType.info,
+      btnOkText: 'Log Out',
+      btnOkOnPress: () async {
+        await FirebaseAuth.instance.signOut();
+        if (context.mounted) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+            (route) => false,
+          );
+        }
+      },
+      btnCancelText: 'Cancel',
+      btnCancelOnPress: () {},
     );
   }
 }

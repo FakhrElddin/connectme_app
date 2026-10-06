@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.example.connectme_app"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36 //flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
