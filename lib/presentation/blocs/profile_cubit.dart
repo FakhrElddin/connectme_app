@@ -23,6 +23,13 @@ class ProfileCubit extends Cubit<ProfileState> {
           .get();
 
       final info = await _fetchDeviceInfo();
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .update({
+            'deviceModel': info['deviceModel']!,
+            'osVersion': info['osVersion']!,
+          });
 
       emit(
         ProfileSuccess(
@@ -131,8 +138,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         emit(
           BiometricAuthFailure(
             title: 'Biometrics Not Available',
-            message:
-                'Your device does not support biometric authentication, or it is currently turned off in your system settings.',
+            message: 'Your device does not support biometric authentication, or it is currently turned off in your system settings.',
           ),
         );
       } else if (e.code == LocalAuthExceptionCode.temporaryLockout ||
@@ -140,16 +146,14 @@ class ProfileCubit extends Cubit<ProfileState> {
         emit(
           BiometricAuthFailure(
             title: 'Security Lockout',
-            message:
-                'Too many failed attempts. Biometric login is temporarily disabled. Please unlock your phone using your PIN or lock screen pattern to reset it.',
+            message: 'Too many failed attempts. Biometric login is temporarily disabled. Please unlock your phone using your PIN or lock screen pattern to reset it.',
           ),
         );
       } else {
         emit(
           BiometricAuthFailure(
             title: 'Authentication Failed',
-            message:
-                'An error occurred during authentication. Please try again or use another method.',
+            message: 'An error occurred during authentication. Please try again or use another method.',
           ),
         );
       }
