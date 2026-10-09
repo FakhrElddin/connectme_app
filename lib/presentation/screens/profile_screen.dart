@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:connectme_app/core/widgets/custom_app_dialog.dart';
 import 'package:connectme_app/core/widgets/custom_gradient_button.dart';
+import 'package:connectme_app/injection.dart';
 import 'package:connectme_app/presentation/blocs/profile_cubit.dart';
 import 'package:connectme_app/presentation/screens/login_screen.dart';
 import 'package:connectme_app/presentation/widgets/device_info_tile.dart';
@@ -41,7 +42,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final headerHeight = screenHeight * 0.185;
     final avatarRadius = screenWidth * 0.133;
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
+    return BlocProvider(
+      create: (context) => getIt<ProfileCubit>()..getCurrentUserData(),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: AppColors.transparentColor,
           statusBarIconBrightness: Brightness.light,
@@ -343,8 +346,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
           ),
         ),
-      );
-    }
+      ),
+    );
+  }
 
   void _showImagePickerBottomSheet(BuildContext context) {
     showModalBottomSheet(

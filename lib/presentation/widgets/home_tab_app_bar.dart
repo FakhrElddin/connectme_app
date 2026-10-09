@@ -1,6 +1,5 @@
 import 'package:connectme_app/core/utils/app_colors.dart';
 import 'package:connectme_app/core/widgets/custom_app_dialog.dart';
-import 'package:connectme_app/injection.dart';
 import 'package:connectme_app/presentation/blocs/profile_cubit.dart';
 import 'package:connectme_app/presentation/screens/profile_screen.dart';
 import 'package:connectme_app/presentation/widgets/category_tabs.dart';
@@ -36,11 +35,7 @@ class HomeTabAppBar extends StatelessWidget implements PreferredSizeWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => BlocProvider(
-                    create: (context) =>
-                        getIt<ProfileCubit>()..getCurrentUserData(),
-                    child: const ProfileScreen(),
-                  ),
+                  builder: (context) => const ProfileScreen(),
                 ),
               );
             } else if (state is BiometricAuthFailure) {
