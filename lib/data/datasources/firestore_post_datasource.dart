@@ -1,16 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectme_app/core/errors/failures.dart';
+import 'package:connectme_app/data/datasources/post_datasource.dart';
 import 'package:connectme_app/data/models/post_model.dart';
 import 'package:connectme_app/domain/entities/post.dart';
 import 'package:dartz/dartz.dart';
 
-abstract class FirestorePostDatasource {
-  Future<Either<Failures, Unit>> createPost({
-    required Post post,
-  });
-
-  Stream<Either<Failures, List<Post>>> getPosts();
-}
+abstract class FirestorePostDatasource implements PostDatasource {}
 
 class FirestorePostDatasourceImpl implements FirestorePostDatasource {
   @override

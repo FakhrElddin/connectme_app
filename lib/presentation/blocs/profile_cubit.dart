@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectme_app/core/errors/failures.dart';
+import 'package:connectme_app/services/biometric_service.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -11,7 +12,9 @@ import 'package:local_auth/local_auth.dart';
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit() : super(ProfileInitial());
+  final BiometricService biometricService;
+
+  ProfileCubit({required this.biometricService}) : super(ProfileInitial());
 
   Future<void> getCurrentUserData() async {
     try {
@@ -124,9 +127,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> authenticateWithBiometrics() async {
     if (isAuthenticating) return;
     isAuthenticating = true;
-    final LocalAuthentication auth = LocalAuthentication();
     try {
-      final bool didAuthenticate = await auth.authenticate(
+      final bool didAuthenticate = await biometricService.authenticate(
         localizedReason: 'Please authenticate to show your profile info',
         biometricOnly: true,
       );

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:connectme_app/core/errors/failures.dart';
 import 'package:connectme_app/services/auth_service.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 part 'auth_state.dart';
 

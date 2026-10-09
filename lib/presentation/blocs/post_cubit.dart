@@ -7,7 +7,7 @@ import 'package:connectme_app/domain/entities/post.dart';
 import 'package:connectme_app/domain/usecases/create_post.dart';
 import 'package:connectme_app/domain/usecases/get_posts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 part 'post_state.dart';
 
